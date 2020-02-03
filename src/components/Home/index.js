@@ -8,7 +8,7 @@ import agent from '../../agent';
 const Promise = global.promise;
 
 const mapStateToProps = state => ({
-  appName:state.appName
+  appName:state.common.appName
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Home extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.onLoad(agent.Articles.all());
   }
   

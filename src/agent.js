@@ -9,7 +9,9 @@ const responseBody = res =>res.body;
 
 const request = {
   get:url =>
-    superagent.get (`${API_ROOT}${url}`).then(responseBody)
+    superagent.get (`${API_ROOT}${url}`).then(responseBody),
+  post: (url, body) =>
+    superagent.post(`${API_ROOT}${url}`, body).then(responseBody)
 };
 
 const Articles = {
@@ -17,6 +19,13 @@ const Articles = {
     request.get('articles?Limit=10')
 }
 
+const Auth = {
+  login: (email, password) => {
+    request.post('users/login', {user: {email, password}})
+  }
+}
+
 export default{
-  Articles
+  Articles,
+  Auth
 };

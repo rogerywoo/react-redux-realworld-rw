@@ -7,7 +7,7 @@ import Home from './components/Home';
 
 const mapStateToProps = state => {
   return {
-    appName: state.appName
+    appName: state.common.appName
   }
 };
 
@@ -23,9 +23,9 @@ class App extends React.Component {
   }
 }
 
-App.contexTypes = {
-  router:React.PropsTypes.object.isRequired
-};
+// App.contexTypes = {
+// //  router:React.PropsTypes.object.isRequired
+// };
 
 // function App() {
 //   return (
