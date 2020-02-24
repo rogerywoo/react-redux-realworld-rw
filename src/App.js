@@ -4,14 +4,37 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
+import agent from './agent';
 
-const mapStateToProps = state => {
-  return {
-    appName: state.common.appName
-  }
-};
+const mapStateToProps = state => ({
+    appName: state.common.appName,
+    redirectTo: state.common.redirectTo
+});
+
+const mapDispatchToProps = dispatch => ({
+  onRedirect: () =>
+    dispatch({type:'REDIRECT'}),
+  onLoad: (payload, token) =>
+    dispatch({type: 'APP-LOAD', payload, token})
+})
 
 class App extends React.Component {
+  componentWillReceiveProps(nextProps){
+    if (nextProps.redirectTo) {
+      this.context.router.replace(nextProps.redirectTo);
+      this.props.onRedirect();
+    }
+  }
+
+  componentWillMount(){
+    const token = window.localStorage.getItem('jwt');
+    if (token) {
+      agent.setToken(token);
+    }
+    
+    this.props.onLoad(token ? agent.Auth.current() : null, token)
+  }
+
   render() {
     return (
       <div>
@@ -48,4 +71,4 @@ class App extends React.Component {
 //   );
 // }
 
-export default connect(mapStateToProps, () => ({ }) ) (App);
+export default connect(mapStateToProps, mapDispatchToProps ) (App);

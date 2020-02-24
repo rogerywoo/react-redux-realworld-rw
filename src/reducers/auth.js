@@ -8,7 +8,7 @@ export default (state = {}, action) => {
     case 'UPDATE_FIELD_AUTH':
       return {
         ...state,
-        [action.key]:action.value
+        [action.key]: action.value
       }
     case 'ASYNC_START':
       if (action.subtype ==='LOGIN'){

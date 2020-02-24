@@ -9,7 +9,7 @@ const responseBody = res =>res.body;
 
 const request = {
   get:url =>
-    superagent.get (`${API_ROOT}${url}`).then(responseBody),
+    superagent.get (`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody),
   post: (url, body) =>
     superagent.post(`${API_ROOT}${url}`, body).then(responseBody)
 };
@@ -20,12 +20,23 @@ const Articles = {
 }
 
 const Auth = {
+  current: () => 
+    request.get('/user'),
+
   login: (email, password) => {
-    request.post('users/login', {user: {email, password}})
+    return  request.post('users/login', {user: {email, password}});
+  }
+}
+
+let token = null;
+let tokenPlugin = req => {
+  if (token) {
+    req.set('authorization', `Token ${token}`);
   }
 }
 
 export default{
   Articles,
-  Auth
+  Auth,
+  setToken: _token => {token = _token}
 };

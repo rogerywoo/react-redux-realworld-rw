@@ -6,7 +6,7 @@ import ListErrors from './ListErrors';
 
 const mapStateToProps = state => ({
   ...state.auth
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   onChangeEmail: value =>
@@ -15,14 +15,29 @@ const mapDispatchToProps = dispatch => ({
     dispatch ({ type: 'UPDATE_FIELD_AUTH', key:'password', value}),
   onSubmit: (email, password) =>
     dispatch ({ type: 'LOGIN', payload: agent.Auth.login(email, password)}),
-})
+});
 
 class Login extends React.Component {
   constructor(){
     super();
 
-    this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
-    this.changePassword = ev => this.props.onChangePassword(ev.target.value);
+    this.changeEmail = ev => {
+      let tt = ev;
+      return this.props.onChangeEmail(ev.target.value);
+    }
+
+    this.changePassword = ev => {
+      let tt = ev;
+      return this.props.onChangePassword(ev.target.value);
+    }
+
+    // this.submitForm = ev => {
+    //   ev.preventDefault();
+    //   const data = new FormData(ev.target);
+    
+    //   return this.props.onSubmit(data.get("email"), data.get("password"));
+    // };
+
     this.submitForm = (email, password) => ev => {
       ev.preventDefault();
       this.props.onSubmit(email, password);

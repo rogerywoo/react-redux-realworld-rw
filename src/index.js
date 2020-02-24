@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import store from './store';
 
 import Home from './components/Home';
-import Login from './components/login';
+import Login from './components/Login';
 
 import './index.css';
 import App from './App';
