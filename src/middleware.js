@@ -32,6 +32,7 @@ const localStorageMiddleware = store => next => action => {
       agent.setToken(action.payload.user.token);
     }
   }
+  next (action);  
 }
 
 export {
