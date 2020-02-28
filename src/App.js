@@ -1,14 +1,18 @@
 import React from 'react';
 import { connect } from  'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
+import Login from './components/Login';
 import agent from './agent';
 
 const mapStateToProps = state => ({
     appName: state.common.appName,
-    redirectTo: state.common.redirectTo
+    redirectTo: state.common.redirectTo,
+    currentUser: state.common.current,
+    token: state.common.token
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -18,24 +22,45 @@ const mapDispatchToProps = dispatch => ({
     dispatch({type: 'APP-LOAD', payload, token})
 })
 
-class App extends React.Component {
-  constructor(){
-    super();
 
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {};
     const token = window.localStorage.getItem('jwt');
     if (token) {
-      agent.setToken(token);      
+      agent.setToken(token);   
     }   
 
-    this.onLoad = (token) =>  {
-      this.props.onLoad(token ? agent.Auth.current() : null, token);
+    // this.onLoad = (token) =>  {
+    //   this.props.onLoad(token ? agent.Auth.current() : null, token);
+    // }
+
+    // if (props.redirectTo){
+    //   this.props.history.push(props.redirectTo);
+    //   this.props.onRedirect();
+    // }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    if (nextProps.redirectTo) {
+      return {redirectTo: nextProps.redirectTo};
+    }
+    else {
+      return null;
     }
   }
 
-  componentDidUpdate(nextProps){
-    if (nextProps.redirectTo) {
-      this.props.history.push(nextProps.redirectTo);
-      this.props.onRedirect();
+  componentDidMount() {
+    this.props.onLoad(this.props.token ? agent.Auth.current() : null, this.props.token);
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if (this.state.redirectTo){
+      if (prevProps.redirectTo !== this.state.redirectTo){
+        this.props.history.push(this.state.redirectTo);
+        this.props.onRedirect();
+      }            
     }
   }
 
@@ -56,14 +81,18 @@ class App extends React.Component {
   // }
 
   render() {
-    return (
-      <div>
-        <Header appName={this.props.appName}></Header>
-        {this.props.children}
+   
+      return (
+        <div>
+          <Header currentUser={this.props.currentUser} appName={this.props.appName}></Header>
+          <Switch>
+              <Route exact path="/" component={Home}/>
+              <Route path="/login" component={Login} />
+          </Switch>
 
-      </div>
-    );
-  }
+        </div>
+      );
+    }
 }
 
 // App.contexTypes = {

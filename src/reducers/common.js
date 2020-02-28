@@ -1,6 +1,7 @@
 const defaultState ={
   appName: 'Conduit',
-  token: null
+  token: null,
+  redirectTo: null
 };
 
 export default (state = defaultState, action) => {

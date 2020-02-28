@@ -5,22 +5,21 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 
-import Home from './components/Home';
-import Login from './components/Login';
 
 import './index.css';
 import App from './App';
-import { HashRouter } from 'react-router-dom'
+
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 //import {Router, Route} from 'react-router'
-import {Route} from 'react-router'
+
 
 ReactDOM.render((
   <Provider store={store}>
-    <HashRouter>
-      <Route exact path="/" component={App} />
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />      
-      </HashRouter>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={App} />
+      </Switch>
+      </BrowserRouter>
   </Provider>
   ), document.getElementById('root'));
 
