@@ -1,6 +1,7 @@
 export default (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
+    case  'REGISTER':
       return {...state, 
       inProgress: false,
       errors: action.error ? action.payload.errors : null
@@ -16,6 +17,9 @@ export default (state = {}, action) => {
       }
       return state;
 
+    case 'LOGIN_PAGE_UNLOAD':
+      return {};
+      
     default:
       return state;
   }

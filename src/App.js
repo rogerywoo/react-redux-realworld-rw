@@ -6,12 +6,14 @@ import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
+import Register from './components/Register';
+import Settings from './components/Settings';
 import agent from './agent';
 
 const mapStateToProps = state => ({
     appName: state.common.appName,
     redirectTo: state.common.redirectTo,
-    currentUser: state.common.current,
+    currentUser: state.common.currentUser,
     token: state.common.token
 });
 
@@ -19,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
   onRedirect: () =>
     dispatch({type:'REDIRECT'}),
   onLoad: (payload, token) =>
-    dispatch({type: 'APP-LOAD', payload, token})
+    dispatch({type: 'APP_LOAD', payload, token})
 })
 
 
@@ -31,7 +33,7 @@ class App extends React.Component {
     if (token) {
       agent.setToken(token);   
     }   
-
+    this.props.onLoad(token ? agent.Auth.current() : null, token);
     // this.onLoad = (token) =>  {
     //   this.props.onLoad(token ? agent.Auth.current() : null, token);
     // }
@@ -52,10 +54,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.token ? agent.Auth.current() : null, this.props.token);
+    this.props.onLoad(this.state.token ? agent.Auth.current() : null, this.state.token);
   }
 
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps, nextProps){
     if (this.state.redirectTo){
       if (prevProps.redirectTo !== this.state.redirectTo){
         this.props.history.push(this.state.redirectTo);
@@ -88,6 +90,9 @@ class App extends React.Component {
           <Switch>
               <Route exact path="/" component={Home}/>
               <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />       
+              <Route path="/settings" component={Settings} />                       
+              <Route path="" component={Home}/>              
           </Switch>
 
         </div>

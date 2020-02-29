@@ -60,11 +60,12 @@ const LoggedInView = props => {
 }
 class Header extends React.Component{
   render(){
+    let appName = ((this.props.appName) || '').toLowerCase();
     return (
       <nav className='navbar navbar-light'>
         <div className='container'>
           <Link to="/" className="navbar-brand">
-            {this.props.appName.toLowerCase()}
+            {appName}
           </Link>
           <LoggedOutView currentUser={this.props.currentUser} />
           <LoggedInView currentUser={this.props.currentUser} />

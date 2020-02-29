@@ -31,6 +31,12 @@ const localStorageMiddleware = store => next => action => {
       window.localStorage.setItem('jwt', action.payload.user.token);
       agent.setToken(action.payload.user.token);
     }
+  } else if (action.type === 'LOGOUT') {
+    if (!action.error) {
+      window.localStorage.removeItem('jwt');
+      agent.clearToken();
+    }
+
   }
   next (action);  
 }
