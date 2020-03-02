@@ -32,8 +32,9 @@ class App extends React.Component {
     const token = window.localStorage.getItem('jwt');
     if (token) {
       agent.setToken(token);   
+      this.state.token = token;
     }   
-    this.props.onLoad(token ? agent.Auth.current() : null, token);
+    //this.props.onLoad(token ? agent.Auth.current() : null, token);
     // this.onLoad = (token) =>  {
     //   this.props.onLoad(token ? agent.Auth.current() : null, token);
     // }
@@ -44,9 +45,9 @@ class App extends React.Component {
     // }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState){
-    if (nextProps.redirectTo) {
-      return {redirectTo: nextProps.redirectTo};
+  static getDerivedStateFromProps(props, state){
+    if (props.redirectTo  !== state.redirectTo) {
+      return {redirectTo: props.redirectTo};
     }
     else {
       return null;
@@ -56,11 +57,19 @@ class App extends React.Component {
   componentDidMount() {
     this.props.onLoad(this.state.token ? agent.Auth.current() : null, this.state.token);
   }
-
-  componentDidUpdate(prevProps, nextProps){
+/**
+ * componentDidUpdate() is invoked immediately after updating occurs. 
+ * This method is not called for the initial render.
+ * 
+ * Use this as an opportunity to operate on the DOM when the component has 
+ * been updated. This is also a good place to do network requests as 
+ * long as you compare the current props to previous props 
+ * (e.g. a network request may not be necessary if the props have not changed).
+ */
+  componentDidUpdate(prevProps, prevState){
     if (this.state.redirectTo){
-      if (prevProps.redirectTo !== this.state.redirectTo){
-        this.props.history.push(this.state.redirectTo);
+      if (prevProps.redirectTo !== this.props.redirectTo){
+        this.props.history.push(this.props.redirectTo);
         this.props.onRedirect();
       }            
     }

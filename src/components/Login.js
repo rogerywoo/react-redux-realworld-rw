@@ -31,13 +31,6 @@ class Login extends React.Component {
       return this.props.onChangePassword(ev.target.value);
     }
 
-    // this.submitForm = ev => {
-    //   ev.preventDefault();
-    //   const data = new FormData(ev.target);
-    
-    //   return this.props.onSubmit(data.get("email"), data.get("password"));
-    // };
-
     this.submitForm = (email, password) => ev => {
       ev.preventDefault();
       this.props.onSubmit(email, password);
@@ -49,8 +42,8 @@ class Login extends React.Component {
   }
 
   render () {
-    const email = this.props.email;
-    const password  = this.props.password;
+    const email = this.props.email === null ? '': this.props.email;
+    const password  = this.props.password === null ? '' : this.props.password;
 
     return (
       <div className="auth-page">
@@ -68,7 +61,7 @@ class Login extends React.Component {
                     className="form-control form-control-lg"
                     type="email"
                     placeholder="Email"
-                     value={email}
+                     value={email || ''}
                      onChange={this.changeEmail} />
                 </fieldset>                
                 <fieldset className="form-group">                
