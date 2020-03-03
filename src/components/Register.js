@@ -23,7 +23,7 @@ class Register extends React.Component {
   constructor(){
     super();
 
-    this.onChangeUsername = ev => {
+    this.changeUsername = ev => {
       return this.props.onChangeUsername(ev.target.value);
     }
 
@@ -34,13 +34,6 @@ class Register extends React.Component {
     this.changePassword = ev => {
       return this.props.onChangePassword(ev.target.value);
     }
-
-    // this.submitForm = ev => {
-    //   ev.preventDefault();
-    //   const data = new FormData(ev.target);
-    
-    //   return this.props.onSubmit(data.get("email"), data.get("password"));
-    // };
 
     this.submitForm = (username, email, password) => ev => {
       ev.preventDefault();
@@ -74,7 +67,7 @@ class Register extends React.Component {
                       type="text"
                       placeholder="UserName"
                       value={username}
-                      onChange={this.ChangeUsername} />
+                      onChange={this.changeUsername} />
                   </fieldset>                
                   <fieldset className="form-group">
                     <input

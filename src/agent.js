@@ -14,11 +14,17 @@ const request = {
     superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody),
   put: (url, body) =>
     superagent.save(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody),
+  del:url =>
+    superagent.del (`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody),
 };
 
 const Articles = {
   all: page =>
-    request.get('articles?Limit=10')
+    request.get('articles?Limit=10'),
+  get: slug =>
+    request.get(`articles/${slug}`),
+  delete: slug =>
+    request.del(`articles/${slug}`),
 }
 
 const Auth = {
@@ -30,13 +36,24 @@ const Auth = {
   },
 
   register: (username, email, password) => {
-    request.post('/users', {user: {username, email, password }});
+    return request.post('/users', {user: {username, email, password }});
   },
 
   save: user => {
-    request.put('/users', {user});
+    return request.put('/users', {user});
   }
 }
+
+const Comments = {
+  create: (slug, comment) => 
+    request.post(`/article/${slug}/comments`, { comment }),
+
+  delete: (slug, commentId) =>
+    request.del(`/articles/${slug}/comments/${commentId}`),
+
+  forArticles: slug =>
+    request.get(`/articles/${slug}/comments`)
+};
 
 let token = null;
 let tokenPlugin = req => {
@@ -48,6 +65,7 @@ let tokenPlugin = req => {
 export default{
   Articles,
   Auth,
+  Comments,
   setToken: _token => {token = _token},
   clearToken: () => {token = null}
 };

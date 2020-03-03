@@ -2,9 +2,10 @@ import ArticleList from '../ArticleList';
 import React from 'react';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
-  articles: state.home.articles
-});
+const mapStateToProps = state => {
+  let t = state.home;
+  return {articles: state.articleList.articles}
+};
 
 const MainView = props => {
   return (
