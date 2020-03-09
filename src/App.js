@@ -14,6 +14,7 @@ import ProfileFavorites from './components/ProfileFavorites';
 import agent from './agent';
 
 const mapStateToProps = state => ({
+    appLoaded: state.common.appLoaded,
     appName: state.common.appName,
     redirectTo: state.common.redirectTo,
     currentUser: state.common.currentUser,

@@ -1,9 +1,12 @@
 export default (state = {}, action) => {
   switch (action.type) {
     case 'HOME_PAGE_LOADED':
+    case 'CHANGE_TAB':   
+      let t= state;   
       return {...state, 
       articles: action.payload.articles,
-      articlesCount: action.payload.articlesCount
+      articlesCount: action.payload.articlesCount,
+      tab: action.tab
     }
     case 'PROFILE_PAGE_LOADED':
     case 'PROFILE_FAVORITES_PAGE_LOADED':

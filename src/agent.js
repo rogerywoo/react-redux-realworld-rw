@@ -29,6 +29,8 @@ const Articles = {
     request.del(`/articles/${slug}`),
   favoriteBy: (author, page) =>
     request.get(`/articles?favorited=${encodeURIComponent(author)}&limit=5`),    
+  feed: () => 
+    request.get('/articles/feed?limit=10'),
 }
 
 const Auth = {
