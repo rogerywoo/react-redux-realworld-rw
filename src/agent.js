@@ -20,11 +20,15 @@ const request = {
 
 const Articles = {
   all: page =>
-    request.get('articles?Limit=10'),
+    request.get('/articles?Limit=10'),
   get: slug =>
-    request.get(`articles/${slug}`),
+    request.get(`/articles/${slug}`),
+  byAuthor: (author, page) =>
+    request.get(`/articles?author=${encodeURIComponent(author)}&limit=5`),
   delete: slug =>
-    request.del(`articles/${slug}`),
+    request.del(`/articles/${slug}`),
+  favoriteBy: (author, page) =>
+    request.get(`/articles?favorited=${encodeURIComponent(author)}&limit=5`),    
 }
 
 const Auth = {
@@ -42,6 +46,15 @@ const Auth = {
   save: user => {
     return request.put('/users', {user});
   }
+}
+
+const Profile = {
+  follow: username =>
+    request.post(`/profiles/${username}/follow`),
+  get: username =>
+    request.get(`/profiles/${username}`),
+  unfollow: username =>
+    request.del(`/profiles/${username}/follow`),    
 }
 
 const Comments = {
@@ -66,6 +79,7 @@ export default{
   Articles,
   Auth,
   Comments,
+  Profile,
   setToken: _token => {token = _token},
   clearToken: () => {token = null}
 };

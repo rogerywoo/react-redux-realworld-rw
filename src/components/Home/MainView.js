@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
   let t = state.home;
-  return {articles: state.articleList.articles}
+  return {...state.articleList}
 };
 
 const MainView = props => {
