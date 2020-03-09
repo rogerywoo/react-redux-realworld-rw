@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import agent from '../agent';
-import Profile from './Profile';
+import {Profile, mapStateToProps} from './Profile';
 
 
 const mapDispatchToProps = dispatch => ({
@@ -43,7 +43,7 @@ class ProfileFavorites extends Profile {
             </Link>
         </li>
 
-        <li className='nav-link'>
+        <li className='nav-item'>
           <Link 
             className='nav-link active'
             to={`/@${this.props.profile.username}/favorites`}>
@@ -55,4 +55,4 @@ class ProfileFavorites extends Profile {
   }
 }
 
-export default connect(null, mapDispatchToProps) (ProfileFavorites)
+export default connect(mapStateToProps, mapDispatchToProps) (ProfileFavorites)
