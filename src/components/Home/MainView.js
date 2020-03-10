@@ -27,7 +27,7 @@ const YourFeedTab = props => {
 
     return (
       <li className='nav-item'>
-        <a href='_blank'
+        <a href=''
           className={ props.tab === 'feed' ? 'nav-link active' : 'nav-link' }
           onClick={clickHandler}>
             Your Feed
@@ -47,9 +47,9 @@ const GlobalFeedTab = props => {
   return (
     <li className='nav-item'>
       <a
-      href='_blank'
+      href=''
       className={props.tab === 'all' ? 'nav-link active' : 'nav-link' }
-      onclick={clickHandler}>
+      onClick={clickHandler}>
         Global Feed
       </a>
     </li>

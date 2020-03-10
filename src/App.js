@@ -96,7 +96,7 @@ class App extends React.Component {
   // }
 
   render() {
-   
+    if (this.props.appLoaded) {
       return (
         <div>
           <Header currentUser={this.props.currentUser} appName={this.props.appName}></Header>
@@ -113,7 +113,15 @@ class App extends React.Component {
 
         </div>
       );
+    } else {
+      return (
+        <div>
+          <Header currentUser={this.props.currentUser} appName={this.props.appName}></Header>
+        </div>
+      )
+
     }
+  }
 }
 
 // App.contexTypes = {

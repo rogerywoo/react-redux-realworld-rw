@@ -6,7 +6,9 @@ export default (state = {}, action) => {
       return {...state, 
       articles: action.payload.articles,
       articlesCount: action.payload.articlesCount,
-      tab: action.tab
+      tab: action.tab,
+      appLoaded: true,
+
     }
     case 'PROFILE_PAGE_LOADED':
     case 'PROFILE_FAVORITES_PAGE_LOADED':

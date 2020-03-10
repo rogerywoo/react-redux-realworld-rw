@@ -60,26 +60,26 @@ class SettingsForm extends React.Component {
 
   componentDidMount() {
     if (this.props.currentUser) {
-      Object.assign(this.state, {
+      this.setState(Object.assign(this.state, {
         image: this.props.currentUser.image || '',
         username: this.props.currentUser.username,
         bio: this.props.currentUser.bio,
         email: this.props.currentUser.email
-      })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.currentUser) {
-      this.setState(Object.assign({}, this.state, {
-        image: nextProps.currentUser.image || '',
-        username: nextProps.currentUser.username,
-        bio: nextProps.currentUser.bio,
-        email: nextProps.currentUser.email
-
       }));
     }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.currentUser) {
+  //     this.setState(Object.assign({}, this.state, {
+  //       image: nextProps.currentUser.image || '',
+  //       username: nextProps.currentUser.username,
+  //       bio: nextProps.currentUser.bio,
+  //       email: nextProps.currentUser.email
+
+  //     }));
+  //   }
+  // }
 
   render(){
     return(
