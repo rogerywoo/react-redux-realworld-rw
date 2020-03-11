@@ -19,19 +19,33 @@ const request = {
 };
 
 const Articles = {
-  all: page =>
-    request.get('/articles?Limit=10'),
+  all: page => {
+    return request.get('/articles&Limit=10');
+  },
   get: slug =>
     request.get(`/articles/${slug}`),
   byAuthor: (author, page) =>
     request.get(`/articles?author=${encodeURIComponent(author)}&limit=5`),
+  byTag: (tag, page) => {
+    let tt = 1;
+    return request.get(`/articles?tag=${encodeURIComponent(tag)}&limit=5`);
+    },
   delete: slug =>
     request.del(`/articles/${slug}`),
   favoriteBy: (author, page) =>
     request.get(`/articles?favorited=${encodeURIComponent(author)}&limit=5`),    
-  feed: () => 
-    request.get('/articles/feed?limit=10'),
+  feed: () => {
+    return request.get('/articles/feed?limit=10');
+  },
 }
+
+
+const Tags = {
+  getAll: () => {
+    let t = 1;
+    return request.get('/tags');
+  }
+};
 
 const Auth = {
   current: () => 
@@ -82,6 +96,7 @@ export default{
   Auth,
   Comments,
   Profile,
+  Tags,
   setToken: _token => {token = _token},
   clearToken: () => {token = null}
 };
