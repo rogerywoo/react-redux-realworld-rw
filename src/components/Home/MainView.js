@@ -11,12 +11,16 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onTabClick: (tab,payload) => dispatch 
-    ({type: 'CHANGE_TAB', tab, payload})
-  }
-}
+const mapDispatchToProps = dispatch => ({
+
+    onTabClick: (tab,payload) => dispatch ({type: 'CHANGE_TAB', tab, payload}),
+      
+    onSetPage: (tab, p) => dispatch ({
+        type:'SET_PAGE',
+        page: p,
+        payload: (tab === 'feed') ? agent.Articles.feed(p) : agent.Articles.all(p)
+      })
+})
 
 const TagFilterTab = props => {
   if (!props.tag) {
@@ -89,7 +93,9 @@ const MainView = props => {
       </div>
       <ArticleList
         articles={props.articles}
-      />
+        articlesCount={props.articlesCount}
+        currentPage={props.currentPage}
+        onSetPage={props.onSetPage} />        
     </div>
   )
 }

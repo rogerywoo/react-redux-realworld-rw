@@ -5,6 +5,8 @@ const superagent = superagentPromise(_superagent, global.Promise);
 
 const API_ROOT = 'https://conduit.productionready.io/api/';
 
+const limit = (count,p) => `limit=${count}&offset=${p ? p * count : 10}`;
+
 const responseBody = res =>res.body;
 
 const request = {
@@ -20,22 +22,21 @@ const request = {
 
 const Articles = {
   all: page => {
-    return request.get('/articles&Limit=10');
+    return request.get(`/articles?${limit(10, page)}`);
   },
   get: slug =>
     request.get(`/articles/${slug}`),
   byAuthor: (author, page) =>
-    request.get(`/articles?author=${encodeURIComponent(author)}&limit=5`),
+    request.get(`/articles?author=${encodeURIComponent(author)}&${limit(10, page)}`),
   byTag: (tag, page) => {
-    let tt = 1;
-    return request.get(`/articles?tag=${encodeURIComponent(tag)}&limit=5`);
+    return request.get(`/articles?tag=${encodeURIComponent(tag)}&${limit(10, page)}`);
     },
   delete: slug =>
     request.del(`/articles/${slug}`),
   favoriteBy: (author, page) =>
-    request.get(`/articles?favorited=${encodeURIComponent(author)}&limit=5`),    
-  feed: () => {
-    return request.get('/articles/feed?limit=10');
+    request.get(`/articles?favorited=${encodeURIComponent(author)}&${limit(10, page)}`),    
+  feed: page => {
+    return request.get(`/articles/feed?${limit(10, page)}`);
   },
 }
 

@@ -1,14 +1,23 @@
 import React from 'react';
 import ArticlePreview from './ArticlePreview'
+import ListPagination from './ListPagination';
 
 const ArticleList = props =>{
-  if (!props.articles  || props.articles.length === 0) {
+  if (!props.articles) {
+    return (
+      <div className= 'article-preview'>
+        Loading...
+      </div>
+    )
+  }
+
+  else if (props.articles.length === 0) {
     return (
       <div className= 'article-preview'>
         No articles are here... yet.
       </div>
     )
-  }
+  }  
   return (
     <div>
       {
@@ -18,6 +27,11 @@ const ArticleList = props =>{
           );
         })
       }
+
+      <ListPagination
+        articlesCount={props.articlesCount}
+        currentPage={props.currentPage}
+        onSetPage={props.onSetPage} />
     </div>
   );
 };

@@ -14,6 +14,8 @@ const mapDispatchToProps = dispatch => ({
   onFollow: username => 
     dispatch({ type: 'FOLLOW_USER', payload: agent.Profile.follow(username)}), 
   onLoad: payload=> dispatch({type: 'PROFILE_PAGE_LOADED', payload}),
+  onSetPage: (page, payload) =>
+    dispatch ({type: 'SET_PAGE', page, payload}),
   onUnfollow: username => dispatch({type: 'UNFOLLOW_USER', 
     payload: agent.Profile.unfollow(username)}),
   onUnload: () =>dispatch({type: 'PROFILE_PAGE_UNLOADED'})
@@ -110,6 +112,8 @@ class Profile extends React.Component {
     const isUser = this.props.currentUser &&
       this.props.profile.username === this.props.currentUser.username;
 
+    const onSetPage = page => this.onSetPage(page);
+
     return (
       <div className='profile-page'>
         <div className='user-info'>
@@ -141,7 +145,10 @@ class Profile extends React.Component {
                 {this.renderTabs()}
               </div>
               <ArticleList
-                articles={this.props.articles} />
+                articles={this.props.articles} 
+                articlesCount={this.props.articlesCount}
+                currentPage={this.props.currentPage}
+                onSetPage={this.props.onSetPage} />                    />
             </div>
           </div>
         </div>
