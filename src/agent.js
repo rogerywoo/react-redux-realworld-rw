@@ -5,7 +5,11 @@ const superagent = superagentPromise(_superagent, global.Promise);
 
 const API_ROOT = 'https://conduit.productionready.io/api/';
 
-const limit = (count,p) => `limit=${count}&offset=${p ? p * count : 10}`;
+const limit = (count,p) => {
+  return `limit=${count}&offset=${p ? p * count : 0}`;
+}
+
+const omitSlug = article => Object.assign({}, article, {slug: undefined});
 
 const responseBody = res =>res.body;
 
@@ -24,10 +28,13 @@ const Articles = {
   all: page => {
     return request.get(`/articles?${limit(10, page)}`);
   },
-  get: slug =>
-    request.get(`/articles/${slug}`),
   byAuthor: (author, page) =>
-    request.get(`/articles?author=${encodeURIComponent(author)}&${limit(10, page)}`),
+    {
+      let test = 1;
+      let url = `/articles?author=${encodeURIComponent(author)}&${limit(10, page)}`;
+      return     request.get(`/articles?author=${encodeURIComponent(author)}&${limit(10, page)}`);
+    },
+
   byTag: (tag, page) => {
     return request.get(`/articles?tag=${encodeURIComponent(tag)}&${limit(10, page)}`);
     },
@@ -38,6 +45,12 @@ const Articles = {
   feed: page => {
     return request.get(`/articles/feed?${limit(10, page)}`);
   },
+  get: slug =>
+    request.get(`/articles/${slug}`),
+  update: article => 
+    request.put(`/articles/${article.slug}`, { article: omitSlug(article) }),
+  create: article =>
+    request.post('/articles', {article})  
 }
 
 

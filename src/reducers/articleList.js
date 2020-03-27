@@ -9,11 +9,13 @@ export default (state = {}, action) => {
         tab: action.tab,
         appLoaded: true,
         currentPage: 0,
+        pager: action.pager,
       }
     case 'CHANGE_TAB':   
       let tt = 1;
   
       return {...state, 
+        pager: action.pager,
         articles: action.payload.articles,
         articlesCount: action.payload.articlesCount,
         tab: action.tab,
@@ -22,8 +24,10 @@ export default (state = {}, action) => {
       }      
     case 'PROFILE_PAGE_LOADED':
     case 'PROFILE_FAVORITES_PAGE_LOADED':
+      let tttt = 1;
       return {
         ...state,
+        pager: action.pager,
         articles: action.payload[1].articles,
         articlesCount: action.payload[1].articlesCount,
         currentPage: 0,        
@@ -45,6 +49,7 @@ export default (state = {}, action) => {
       return {};
     
     case 'SET_PAGE':
+      let ttt = 1;
       return{...state, 
         articles: action.payload.articles,
         articlesCount: action.payload.articlesCount,

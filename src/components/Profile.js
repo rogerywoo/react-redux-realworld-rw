@@ -4,24 +4,29 @@ import {Link} from 'react-router-dom';
 import agent from '../agent';
 import ArticleList from './ArticleList';
 
-const mapStateToProps = state => ({
-  ...state.articleList,
-  currentUser: state.common.currentUser,
-  profile: state.profile  
-});
+const mapStateToProps = state => {
+  let kdf = 1;
+  return {
+    ...state.articleList,
+    currentUser: state.common.currentUser,
+    profile: state.profile ,
+    pager: state.articleList.pager
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   onFollow: username => 
     dispatch({ type: 'FOLLOW_USER', payload: agent.Profile.follow(username)}), 
-  onLoad: payload=> dispatch({type: 'PROFILE_PAGE_LOADED', payload}),
-  onSetPage: (page, payload) =>
-    dispatch ({type: 'SET_PAGE', page, payload}),
+  onLoad: (payload) => dispatch({type: 'PROFILE_PAGE_LOADED', payload, pager: pager }),
+  //onLoad: (payload, username) => dispatch({type: 'PROFILE_PAGE_LOADED', payload }),
   onUnfollow: username => dispatch({type: 'UNFOLLOW_USER', 
     payload: agent.Profile.unfollow(username)}),
   onUnload: () =>dispatch({type: 'PROFILE_PAGE_UNLOADED'})
 });
 
-
+const pager = (currentUser, page) =>  {
+  return agent.Articles.byAuthor(currentUser.username, page);
+}
 
 const EditProfileSettings = props => {
   if (props.isUser){
@@ -74,12 +79,13 @@ class Profile extends React.Component {
     this.props.onLoad(Promise.all([
       agent.Profile.get(this.props.match.params.username),
       agent.Articles.byAuthor(this.props.match.params.username)
-    ]));
+    ]), this.props.match.params.username);
   }
 
   componentWillUnmount(){
     this.props.onUnload();
   }
+
 
   renderTabs() {
     return (
@@ -112,8 +118,6 @@ class Profile extends React.Component {
     const isUser = this.props.currentUser &&
       this.props.profile.username === this.props.currentUser.username;
 
-    const onSetPage = page => this.onSetPage(page);
-
     return (
       <div className='profile-page'>
         <div className='user-info'>
@@ -145,10 +149,11 @@ class Profile extends React.Component {
                 {this.renderTabs()}
               </div>
               <ArticleList
+                pager={this.props.pager}          
                 articles={this.props.articles} 
                 articlesCount={this.props.articlesCount}
                 currentPage={this.props.currentPage}
-                onSetPage={this.props.onSetPage} />                    />
+                />        
             </div>
           </div>
         </div>

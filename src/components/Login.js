@@ -51,7 +51,7 @@ class Login extends React.Component {
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">SignIn</h1>
             <p className="text-xs-center">
-              <a> Need an account?</a>
+              <a href='#'> Need an account?</a>
             </p>
             <ListErrors errors={this.props.errors} />
             <form onSubmit={this.submitForm(email, password)}>
